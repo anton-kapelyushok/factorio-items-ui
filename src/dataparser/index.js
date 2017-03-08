@@ -30,7 +30,7 @@ function parseRecipes(data) {
     });
 }
 
-function parseData(data) {
+function parseData(data, resourceToLink) {
     const recipes = _.values(parseRecipes(data));
     const itemNames = _.uniq(_.flatten(_.map(_.values(recipes), (recipe) => {
         return [...recipe.to.map(i => i.name), ...recipe.from.map(i => i.name)];
@@ -49,6 +49,18 @@ function parseData(data) {
     }, {});
 
     const items = _.values(_.pick(allItems, itemNames));
+
+    items.forEach((item) => {
+        if ('icon' in item) {
+            item.icon = resourceToLink(item.icon);
+        }
+    });
+
+    recipes.forEach((item) => {
+        if ('icon' in item) {
+            item.icon = resourceToLink(item.icon);
+        }
+    });
 
     return { items, recipes };
 }

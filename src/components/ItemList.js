@@ -1,18 +1,25 @@
 import React, { Component, PropTypes } from 'react';
-import Api from '../api';
 
-const api = new Api('http://localhost:3000');
 
 class Item extends Component {
     render() {
         return (
-            <li className="ItemList-item" draggable="true" onDragStart={() => {}}>
-                <img src={api.resourceLink(this.props.icon)}></img>
+            <li
+                className="ItemList_Item"
+                onMouseDown={this.props.onDragStart}
+            >
+                <img src={this.props.icon}></img>
                 <span>{this.props.name}</span>
             </li>
         );
     }
 }
+
+Item.propTypes = {
+    icon: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    onDragStart: PropTypes.func.isRequired,
+};
 
 export default class ItemList extends Component {
     shouldComponentUpdate(nextProps) {
@@ -27,6 +34,7 @@ export default class ItemList extends Component {
                         key={item.name}
                         name={item.name}
                         icon={item.icon}
+                        onDragStart={(e) => this.props.onDragStart(e, item.name)}
                     />)
                 }
                 </ul>
@@ -34,3 +42,8 @@ export default class ItemList extends Component {
         );
     }
 }
+
+ItemList.propTypes = {
+    items: PropTypes.array.isRequired,
+    onDragStart: PropTypes.func.isRequired,
+};

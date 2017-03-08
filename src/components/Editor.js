@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class Editor extends Component {
-    render() {
-        return (
-            <div>
-            </div>
-        );
-    }
-}
+import RecipeTreeContainer from '../containers/RecipeTreeContainer';
+import RecipeSelectorContainer from '../containers/RecipeSelectorContainer';
+
+const Editor = ({ showRecipePicker }) =>
+    <div className="Editor">
+        <RecipeTreeContainer />
+        { showRecipePicker && <RecipeSelectorContainer /> }
+    </div>
+;
+
+Editor.propTypes = {
+    showRecipePicker: PropTypes.bool.isRequired,
+};
+
+export default Editor;

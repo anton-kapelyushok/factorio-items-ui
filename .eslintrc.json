@@ -27,6 +27,7 @@
         "prefer-const": "error",
         "no-var": "error",
         "semi": ["error", "always"],
-        "react/jsx-equals-spacing": ["warn", "never"]
+        "react/jsx-equals-spacing": ["warn", "never"],
+        "o-case-declarations": "off"
     }
 }

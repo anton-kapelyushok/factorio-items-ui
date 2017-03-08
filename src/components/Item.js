@@ -87,20 +87,24 @@ export default class Item extends Component {
 
     render() {
         const outSlots = this.props.outItems.map((item, i) => (
-            <div
+            <img
                 key={i}
                 ref={'outSlot' + i}
                 className="slot"
+                draggable="false"
+                src={item.icon}
                 onMouseDown={(e) => this.handleMouseOutputLinkCreationStart(e, i)}
             />
         ));
 
 
         const inSlots = this.props.inItems.map((item, i) => (
-            <div
+            <img
                 key={i}
                 ref={'inSlot' + i}
                 className="slot"
+                draggable="false"
+                src={item.icon}
                 onMouseDown={(e) => this.handleMouseInputLinkCreationStart(e, i)}
             />
         ));

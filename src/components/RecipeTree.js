@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react';
+import _ from 'lodash';
+
 import Item from './Item';
 import Link from './Link';
 import CenteredObject from './CenteredObject';
@@ -46,7 +48,7 @@ function getIntersectingSlots(items, offsets, position) {
     return { in: inArray, out: outArray };
 }
 
-export default class ItemTree extends Component {
+export default class RecipeTree extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,14 +63,43 @@ export default class ItemTree extends Component {
             }
         };
 
+        this.clientRect = {};
+        this.resizeHandler = () => this.updateClientRectIfNeeded();
+    }
+
+    componentDidMount() {
+        window.addEventListener("resize", this.resizeHandler);
+        this.updateClientRectIfNeeded();
+    }
+
+    componentDidUpdate() {
+        this.updateClientRectIfNeeded();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resizeHandler);
+    }
+
+    updateClientRectIfNeeded() {
+        const oldRect = this.clientRect;
+        const newRect = _.toPlainObject(this.refs.self.getBoundingClientRect());
+        if (!_.isEqual(oldRect, newRect)) {
+            this.clientRect = newRect;
+            this.props.onClientRectUpdated(newRect);
+        }
     }
 
     handleSlotOffsetsUpdated(i, inOffsets, outOffsets) {
         const slotOffsets = [...this.state.slotOffsets];
-
-        slotOffsets[i].inSlotOffsets = inOffsets;
-        slotOffsets[i].outSlotOffsets = outOffsets;
-
+        if (i < slotOffsets.length) {
+            slotOffsets[i].inSlotOffsets = inOffsets;
+            slotOffsets[i].outSlotOffsets = outOffsets;
+        } else {
+            slotOffsets.push({
+                inSlotOffsets: inOffsets,
+                outSlotOffsets: outOffsets,
+            });
+        }
         this.setState({ slotOffsets });
     }
 
@@ -252,7 +283,7 @@ export default class ItemTree extends Component {
         return (
             <div
                 ref="self"
-                className="ItemTree"
+                className="RecipeTree"
                 style={{
                     transform: `scale(${scale}, ${scale})`,
                     width: `${100/scale}%`,
@@ -276,17 +307,18 @@ export default class ItemTree extends Component {
     }
 }
 
-ItemTree.propTypes = {
+RecipeTree.propTypes = {
     items: PropTypes.array.isRequired,
     links: PropTypes.array.isRequired,
     scale: PropTypes.number.isRequired,
     offsetX: PropTypes.number.isRequired,
     offsetY: PropTypes.number.isRequired,
 
-    onItemMove: PropTypes.func.isRequired,
+    onItemMove: PropTypes.func,
     onConnectedLinkCreated: PropTypes.func.isRequired,
     onDisconnectedInputLinkCreated: PropTypes.func.isRequired,
     onDisconnectedOutputLinkCreated: PropTypes.func.isRequired,
     onCanvasTranslate: PropTypes.func.isRequired,
     onScaleAdjust: PropTypes.func.isRequired,
+    onClientRectUpdated: PropTypes.func.isRequired,
 };

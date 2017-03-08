@@ -13,9 +13,10 @@ const Link = ({ from, to }) => {
                 stroke="black"
             />);
 };
-export default Link;
 
 Link.propTypes = {
     from: PropTypes.object.isRequired,
     to: PropTypes.object.isRequired,
 };
+
+export default Link;
