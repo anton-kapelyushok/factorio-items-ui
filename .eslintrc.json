@@ -28,6 +28,6 @@
         "no-var": "error",
         "semi": ["error", "always"],
         "react/jsx-equals-spacing": ["warn", "never"],
-        "o-case-declarations": "off"
+        "no-case-declarations": "off"
     }
 }

@@ -240,7 +240,7 @@ export default class RecipeTree extends Component {
             >
                 <Item
                     name={item.name}
-                    amount={item.amount}
+                    count={item.count}
                     inItems={item.inItems}
                     outItems={item.outItems}
                     scale={this.props.scale}

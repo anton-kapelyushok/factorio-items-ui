@@ -56,7 +56,8 @@ body {
     position: relative;
     background: white;
     width: 200px;
-    height: 200px;
+    overflow-y: auto;
+    height: 100%;
 }
 
 .RecipeSelector ul {
@@ -81,7 +82,7 @@ body {
 
 .Item .content {
     background: red;
-    height: 40px;
+    min-height: 40px;
 }
 
 .Item .out-slots, .Item .in-slots {

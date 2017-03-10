@@ -34,6 +34,7 @@ export default class ItemList extends Component {
                         key={item.name}
                         name={item.name}
                         icon={item.icon}
+                        count={item.count}
                         onDragStart={(e) => this.props.onDragStart(e, item.name)}
                     />)
                 }

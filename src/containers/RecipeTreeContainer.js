@@ -9,6 +9,7 @@ import {
     adjustScale,
     createLink,
     updateClientRect,
+    addInputItem,
 } from '../actions';
 
 const getSlotProps = (items, recipeSlot) => {
@@ -31,6 +32,7 @@ const mapStateToProps = (state) => ({
                     outItems: [getSlotProps(state.data.items, { amount: 1, name: i.name })],
                     x: i.x,
                     y: i.y,
+                    count: i.count,
                 };
             case 'output':
                 return {
@@ -39,6 +41,7 @@ const mapStateToProps = (state) => ({
                     outItems: [],
                     x: i.x,
                     y: i.y,
+                    count: i.count,
                 };
             default:
                 recipe = _.find(state.data.recipes, (r) => r.name === i.name);
@@ -48,6 +51,7 @@ const mapStateToProps = (state) => ({
                     outItems: recipe.to.map((r) => getSlotProps(state.data.items, r)),
                     x: i.x,
                     y: i.y,
+                    count: i.count,
                 };
         }
     }),
@@ -63,8 +67,7 @@ const mapDispatchToProps = {
     onConnectedLinkCreated: createLink,
     onCanvasTranslate: translateCanvas,
     onScaleAdjust: adjustScale,
-    onDisconnectedInputLinkCreated: () => {},
-    onDisconnectedOutputLinkCreated: () => {},
+    onDisconnectedInputLinkCreated: addInputItem,
     onClientRectUpdated: updateClientRect,
 };
 

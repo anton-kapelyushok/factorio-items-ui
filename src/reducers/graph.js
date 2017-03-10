@@ -4,6 +4,7 @@ import {
     RECIPE_TREE_LINK_CREATED,
     RECIPE_TREE_LAYOUT_CHANGED,
     RECIPE_TREE_CLIENT_RECT_UPDATED,
+    RECIPE_TREE_COUNTS_UPDATED,
 } from '../constants/actiontypes';
 
 
@@ -20,6 +21,7 @@ const defaultState = {
 };
 
 const graph = (state = defaultState, action) => {
+    let items;
     switch (action.type) {
         case RECIPE_TREE_LAYOUT_CHANGED:
             return {
@@ -48,7 +50,7 @@ const graph = (state = defaultState, action) => {
                 }],
             };
         case RECIPE_TREE_ITEM_MOVED:
-            const items = [...state.items];
+            items = [...state.items];
             items[action.index] = {...items[action.index] };
             items[action.index].x += action.dx;
             items[action.index].y += action.dy;
@@ -65,6 +67,15 @@ const graph = (state = defaultState, action) => {
             return {
                 ...state,
                 links,
+            };
+        case RECIPE_TREE_COUNTS_UPDATED:
+            items = state.items.map((item, idx) => ({
+                ...item,
+                count: action.counts[idx],
+            }));
+            return {
+                ...state,
+                items,
             };
         default:
             return state;

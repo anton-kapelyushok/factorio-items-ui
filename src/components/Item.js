@@ -116,7 +116,7 @@ export default class Item extends Component {
                     className="content"
                     onMouseDown={this.handleMouseMovementStart.bind(this)}
                 >
-                    {this.props.name}
+                    {this.props.count} {this.props.name}
                 </div>
                 <div ref="inSlots" className="in-slots">{inSlots}</div>
             </div>
@@ -129,6 +129,7 @@ Item.propTypes = {
     outItems: PropTypes.array.isRequired,
     name: PropTypes.string.isRequired,
     scale: PropTypes.number.isRequired,
+    count: PropTypes.number.isRequired,
     onSlotOffsetsUpdated: PropTypes.func.isRequired,
     onMove: PropTypes.func.isRequired,
     onInputLinkStarted: PropTypes.func.isRequired,

@@ -6,6 +6,7 @@ import {
     RECIPE_TREE_LINK_CREATED,
     RECIPE_TREE_LAYOUT_CHANGED,
     RECIPE_TREE_CLIENT_RECT_UPDATED,
+    RECIPE_TREE_COUNTS_UPDATED,
 
     FACTORIO_DATA_FETCH_STARTED,
     FACTORIO_DATA_LOADED,
@@ -26,6 +27,16 @@ import parseData from '../dataparser';
 import attachMouseMovementListener from '../events/movementlistener';
 
 import solveProductionGraph from '../productiongraph';
+
+export const addInputItem = (to, pos) => (dispatch, getState) => {
+    const state = getState();
+    const recipeName = state.graph.items[to.item].name;
+    const recipe = _.find(state.data.recipes, (r) => r.name === recipeName);
+
+    const slotName = recipe.from[to.slot].name;
+
+    dispatch(showRecipePicker(slotName, pos.x, pos.y));
+};
 
 export const calculateGraph = () => (dispatch, getState) => {
     const state = getState();
@@ -63,9 +74,12 @@ export const calculateGraph = () => (dispatch, getState) => {
     }));
     const input = inputIndices.map((i) => ({ index: i, value: 5 }));
     const output = outputIndices.map((i) => ({ index: i, value: 5 }));
-    const indices = solveProductionGraph(nodes, links, input, output);
-    console.log(indices);
-    return { type: 'hui' };
+
+    const solvePromise = solveProductionGraph(nodes, links, input, output);
+    solvePromise.then((counts) =>  dispatch({
+        type: RECIPE_TREE_COUNTS_UPDATED,
+        counts,
+    }));
 };
 
 export const moveItem = (index, dx, dy) => ({
