@@ -19,7 +19,7 @@ const store = createStore(reducers, applyMiddleware(...middleware));
 
 const api = new Api('http://localhost:3000');
 store.dispatch(loadData(api.data.bind(api), api.resourceLink.bind(api)));
-
+window.store = store;
 ReactDOM.render(
     <Provider store={store}>
         <AppContainer />

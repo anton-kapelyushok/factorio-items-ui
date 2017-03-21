@@ -25,7 +25,7 @@ export const attachMouseMovementListener = (e, {
     };
 
     document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mouseup', onMouseUp, true);
 };
 
 export default attachMouseMovementListener;

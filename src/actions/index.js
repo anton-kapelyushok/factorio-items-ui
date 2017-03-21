@@ -99,8 +99,8 @@ export const addRecipe = (name, type, x, y) => ({
 
 export const translateCanvas = (dx, dy) => (dispatch, getState) => {
     const state = getState();
-    const offsetX = state.graph.offsetX + dx;
-    const offsetY = state.graph.offsetY + dy;
+    const offsetX = dx;
+    const offsetY = dy;
     const scale = state.graph.scale;
     dispatch({
         type: RECIPE_TREE_LAYOUT_CHANGED,
