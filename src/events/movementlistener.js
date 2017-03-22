@@ -10,21 +10,24 @@ export const attachMouseMovementListener = (e, {
 
     onStart();
 
-    const onMouseMove = (e) => {
+    function onMouseMove (e) {
+        e.preventDefault();
+        e.stopPropagation();
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
         startX = e.clientX;
         startY = e.clientY;
 
         onMove(dx, dy);
-    };
-    const onMouseUp = () => {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-        onEnd();
-    };
+    }
 
-    document.addEventListener('mousemove', onMouseMove);
+    function onMouseUp  () {
+        document.removeEventListener('mousemove', onMouseMove, true);
+        document.removeEventListener('mouseup', onMouseUp, true);
+        onEnd();
+    }
+
+    document.addEventListener('mousemove', onMouseMove, true);
     document.addEventListener('mouseup', onMouseUp, true);
 };
 

@@ -63,7 +63,7 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = {
-    onItemMove: moveItem,
+    onItemMoved: moveItem,
     onConnectedLinkCreated: createLink,
     onCanvasTranslate: translateCanvas,
     onScaleAdjust: adjustScale,

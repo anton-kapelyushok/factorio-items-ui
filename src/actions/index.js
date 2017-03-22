@@ -82,9 +82,9 @@ export const calculateGraph = () => (dispatch, getState) => {
     }));
 };
 
-export const moveItem = (index, dx, dy) => ({
+export const moveItem = (index, x, y) => ({
     type: RECIPE_TREE_ITEM_MOVED,
-    index, dx, dy
+    index, x, y
 });
 
 export const createLink = ({ from, to }) => ({
@@ -114,14 +114,11 @@ export const updateClientRect = (clientRect) => {
     ...clientRect, };
 };
 
-export const adjustScale = (delta) => (dispatch, getState)  => {
+export const adjustScale = (scale) => (dispatch, getState)  => {
     const state = getState();
 
     const offsetX = state.graph.offsetX;
     const offsetY = state.graph.offsetY;
-    let scale = state.graph.scale;
-    scale = delta > 0 ? scale /= 1.1 : scale *= 1.1;
-    scale = Math.min(4, Math.max(0, scale));
 
     dispatch({
         type: RECIPE_TREE_LAYOUT_CHANGED,

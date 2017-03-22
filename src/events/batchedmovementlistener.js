@@ -7,6 +7,7 @@ export const attachBatchedMouseMovementListener = (e, {
     startOffsetX = 0,
     startOffsetY = 0,
 } = {}) => {
+
     e.stopPropagation();
     e.preventDefault();
     let nextFramePromise = 0;
@@ -16,17 +17,17 @@ export const attachBatchedMouseMovementListener = (e, {
         _dx += dx;
         _dy += dy;
         if (!nextFramePromise) {
-            nextFramePromise = requestAnimationFrame(() => {
+            nextFramePromise = setTimeout(() => {
                 nextFramePromise = 0;
                 onMove(_dx, _dy);
                 _dx = 0;
                 _dy = 0;
-            }, 20);
+            }, 0);
         }
     };
 
     const _onEnd = () => {
-        cancelAnimationFrame(nextFramePromise);
+        clearTimeout(nextFramePromise);
         onEnd();
     };
 

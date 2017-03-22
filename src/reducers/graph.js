@@ -52,8 +52,8 @@ const graph = (state = defaultState, action) => {
         case RECIPE_TREE_ITEM_MOVED:
             items = [...state.items];
             items[action.index] = {...items[action.index] };
-            items[action.index].x += action.dx;
-            items[action.index].y += action.dy;
+            items[action.index].x = action.x;
+            items[action.index].y = action.y;
 
             return {
                 ...state,

@@ -37,6 +37,12 @@ body {
     height: 100%;
 }
 
+.RecipeTree .wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 .RecipeTree .svg {
     width: 100%;
     height: 100%;

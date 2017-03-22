@@ -57,7 +57,10 @@ export default class Item extends Component {
 
     handleMouseMovementStart(e) {
         e.stopPropagation();
-        attachMouseMovementListener(e, { onMove: this.props.onMove });
+        attachMouseMovementListener(e, {
+            onMove: this.props.onMove,
+            onEnd: this.props.onMoved,
+        });
     }
 
     handleMouseInputLinkCreationStart(e, slotNumber) {
@@ -135,6 +138,7 @@ Item.propTypes = {
     count: PropTypes.number.isRequired,
     onSlotOffsetsUpdated: PropTypes.func.isRequired,
     onMove: PropTypes.func.isRequired,
+    onMoved: PropTypes.func.isRequired,
     onInputLinkStarted: PropTypes.func.isRequired,
     onInputLinkMove: PropTypes.func.isRequired,
     onInputLinkCreated: PropTypes.func.isRequired,
