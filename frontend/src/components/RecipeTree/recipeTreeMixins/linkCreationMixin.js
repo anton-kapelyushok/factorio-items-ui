@@ -72,8 +72,6 @@ export const linkCreationMixin = (self) => {
             const outSlot = this.items[intersectingSlots.out[0].item].outItems[intersectingSlots.out[0].slot];
             if  (outSlot.name !== inSlot.name) return;
 
-            if (itemNumber === intersectingSlots.out[0].item) return;
-
             const linkAlreadyExists = !!this.props.links.find(link =>
                 link.from.item === intersectingSlots.out[0].item
                 && link.from.slot === intersectingSlots.out[0].slot
@@ -90,7 +88,9 @@ export const linkCreationMixin = (self) => {
         } else {
             this.props.onDisconnectedInputLinkCreated(
                 { item: itemNumber, slot: slotNumber },
-                this.temporaryLink.from
+                this.temporaryLink.from,
+                'input-link',
+                this.items[itemNumber].type,
             );
         }
     };
@@ -112,8 +112,6 @@ export const linkCreationMixin = (self) => {
             const inSlot = this.items[intersectingSlots.in[0].item].inItems[intersectingSlots.in[0].slot];
             if  (outSlot.name !== inSlot.name) return;
 
-            if (itemNumber === intersectingSlots.in[0].item) return;
-
             const linkAlreadyExists = !!this.props.links.find(link =>
                 link.to.item === intersectingSlots.in[0].item
                 && link.to.slot === intersectingSlots.in[0].slot
@@ -130,7 +128,9 @@ export const linkCreationMixin = (self) => {
         } else {
             this.props.onDisconnectedOutputLinkCreated(
                 { item: itemNumber, slot: slotNumber },
-                this.temporaryLink.to
+                this.temporaryLink.to,
+                'output-link',
+                this.items[itemNumber].type,
             );
         }
     };

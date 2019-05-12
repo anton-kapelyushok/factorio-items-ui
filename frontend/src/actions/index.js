@@ -24,14 +24,23 @@ import attachMouseMovementListener from '../events/movementlistener';
 
 import solveProductionGraph from '../productiongraph';
 
-export const addInputItem = (to, pos) => (dispatch, getState) => {
+export const addInputItem = (to, pos, source, type) => (dispatch, getState) => {
     const state = getState();
     const recipeName = state.graph.items[to.item].name;
-    const recipe = _.find(state.data.recipes, (r) => r.name === recipeName);
 
-    const slotName = recipe.from[to.slot].name;
+    let slotName;
+    if (type === 'input' || type === 'output') {
+        slotName = recipeName;
+    } else { // 'recipe'
+        const recipe = _.find(state.data.recipes, (r) => r.name === recipeName);
+        if (source === 'input-link') {
+            slotName = recipe.from[to.slot].name;
+        } else { // 'output-link'
+            slotName = recipe.to[to.slot].name;
+        }
+    }
 
-    dispatch(showRecipePicker(slotName, pos.x, pos.y));
+    dispatch(showRecipePicker(slotName, pos.x, pos.y, source));
 };
 
 export const calculateGraph = () => (dispatch, getState) => {
@@ -136,10 +145,11 @@ export const loadData = (fetchData, toHref) => (dispatch, getState) => {
 };
 
 
-export const showRecipePicker = (itemName, x, y) => ({
+export const showRecipePicker = (itemName, x, y, source) => ({
     type: RECIPE_PICKER_SHOW,
     item: itemName,
     x, y,
+    source
 });
 
 export const hideRecipePicker = () => ({
@@ -182,7 +192,7 @@ export const showFloatingElement = (e, name) => (dispatch, getState) => {
                 const xGraph = (elemX - graph.left) / graph.scale - graph.offsetX * graph.scale;
                 const yGraph = (elemY - graph.top) / graph.scale - graph.offsetY * graph.scale;
 
-                dispatch(showRecipePicker(name, xGraph, yGraph));
+                dispatch(showRecipePicker(name, xGraph, yGraph, 'recipe-picker'));
             }
 
         },

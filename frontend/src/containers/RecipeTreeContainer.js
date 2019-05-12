@@ -33,6 +33,7 @@ const mapStateToProps = (state) => ({
                     x: i.x,
                     y: i.y,
                     count: i.count,
+                    type: i.type
                 };
             case 'output':
                 return {
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => ({
                     x: i.x,
                     y: i.y,
                     count: i.count,
+                    type: i.type,
                 };
             default:
                 recipe = _.find(state.data.recipes, (r) => r.name === i.name);
@@ -52,6 +54,7 @@ const mapStateToProps = (state) => ({
                     x: i.x,
                     y: i.y,
                     count: i.count,
+                    type: i.type,
                 };
         }
     }),
@@ -68,6 +71,7 @@ const mapDispatchToProps = {
     onCanvasTranslate: translateCanvas,
     onScaleAdjust: adjustScale,
     onDisconnectedInputLinkCreated: addInputItem,
+    onDisconnectedOutputLinkCreated: addInputItem,
     onClientRectUpdated: updateClientRect,
 };
 
