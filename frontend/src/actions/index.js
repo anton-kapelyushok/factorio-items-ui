@@ -40,7 +40,7 @@ export const addInputItem = (to, pos, source, type) => (dispatch, getState) => {
         }
     }
 
-    dispatch(showRecipePicker(slotName, pos.x, pos.y, source));
+    dispatch(showRecipePicker(slotName, pos.x, pos.y, source, to));
 };
 
 export const calculateGraph = () => (dispatch, getState) => {
@@ -144,24 +144,50 @@ export const loadData = (fetchData, toHref) => (dispatch, getState) => {
 
 };
 
-
-export const showRecipePicker = (itemName, x, y, source) => ({
+export const showRecipePicker = (itemName, x, y, source, sourceSlot) => ({
     type: RECIPE_PICKER_SHOW,
     item: itemName,
     x, y,
-    source
+    source,
+    sourceSlot,
 });
 
 export const hideRecipePicker = () => ({
     type: RECIPE_PICKER_HIDE,
 });
 
-export const selectRecipe = (name, type) => (dispatch, getState) => {
-    const state = getState();
+export const selectRecipe = (targetRecipeName, type) => (dispatch, getState) => {
+    let state = getState();
     const x = state.recipeAdder.x;
     const y = state.recipeAdder.y;
+    const source = state.recipeAdder.source;
     dispatch(hideRecipePicker());
-    dispatch(addRecipe(name, type, x, y));
+    dispatch(addRecipe(targetRecipeName, type, x, y));
+    state = getState();
+
+
+    if (state.recipeAdder.sourceSlot) {
+        const sourceSlot = state.recipeAdder.sourceSlot;
+        const lastItemIndex = state.graph.items.length - 1;
+        const lastItem = state.graph.items[lastItemIndex];
+        const sourceName = state.graph.items[state.recipeAdder.sourceSlot.item].name;
+        const targetRecipe = _.find(state.data.recipes, (r) => r.name === targetRecipeName);
+        if (source === 'input-link') {
+            if (lastItem.type === 'input') {
+                dispatch(createLink({from: {item: lastItemIndex, slot: 0}, to: sourceSlot}));
+            } else { // 'recipe'
+                const slot = targetRecipe.to.findIndex(s => s.name === sourceName);
+                dispatch(createLink({from: {item: lastItemIndex, slot}, to: sourceSlot}));
+            }
+        } else if (source === 'output-link') {
+            if (lastItem.type === 'output') {
+                dispatch(createLink({from: sourceSlot, to: {item: lastItemIndex, slot: 0}}));
+            } else { // 'recipe'
+                const slot = targetRecipe.from.findIndex(s => s.name === sourceName);
+                dispatch(createLink({from: sourceSlot, to: {item: lastItemIndex, slot}}));
+            }
+        }
+    }
 };
 
 export const showFloatingElement = (e, name) => (dispatch, getState) => {

@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 
-import {selectRecipe} from '../actions';
+import {hideRecipePicker, selectRecipe} from '../actions';
 
 import RecipeSelector from '../components/RecipeSelector';
 
@@ -66,6 +66,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     onRecipeSelected: selectRecipe,
+    onClose: hideRecipePicker,
 };
 
 export default connect(

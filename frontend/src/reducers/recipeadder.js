@@ -10,6 +10,7 @@ const defaultState =  {
     x: 0,
     y: 0,
     source: '',
+    sourceSlot: undefined,
 };
 
 const recipeAddReducer  = (state = defaultState, action) => {
@@ -24,6 +25,7 @@ const recipeAddReducer  = (state = defaultState, action) => {
                 x: action.x,
                 y: action.y,
                 source: action.source,
+                sourceSlot: action.sourceSlot,
             };
         default:
             return state;

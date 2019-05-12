@@ -14,8 +14,9 @@ Recipe.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
 
-const RecipeSelector = ({ recipes, onRecipeSelected }) =>
+const RecipeSelector = ({ recipes, onRecipeSelected, onClose }) =>
     <div className="RecipeSelector">
+        <button onClick={onClose}>Close</button>
         <div className="wrapper">
             <ul>
                 { recipes.map((recipe) =>

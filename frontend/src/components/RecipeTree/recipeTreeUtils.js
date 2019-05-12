@@ -1,6 +1,12 @@
 export const getSlotPosition = (items, offsets, itemNumber, type, slotNumber) => {
     const item = items[itemNumber];
 
+    if (!offsets[itemNumber]) {
+        console.log('could not find item offsets, perhaps it was not rendered yet?');
+        console.log('called with', items, offsets, itemNumber, type, slotNumber);
+        return { x: 0, y: 0 };
+    }
+
     const offset = type === 'in' ?
         offsets[itemNumber].inSlotOffsets[slotNumber] :
         offsets[itemNumber].outSlotOffsets[slotNumber];
