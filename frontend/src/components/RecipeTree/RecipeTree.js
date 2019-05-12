@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, {Component, PropTypes} from 'react';
 import _ from 'lodash';
 
 import Item from './Item';
@@ -7,7 +7,7 @@ import Link from './Link';
 import linkCreationMixin from './recipeTreeMixins/linkCreationMixin';
 import layoutChangeMixin from './recipeTreeMixins/layoutChangeMixin';
 import itemMovementMixin from './recipeTreeMixins/itemMovementMixin';
-import { getSlotPosition } from './recipeTreeUtils';
+import {getSlotPosition} from './recipeTreeUtils';
 
 export default class RecipeTree extends Component {
     constructor(props) {
@@ -17,13 +17,13 @@ export default class RecipeTree extends Component {
         itemMovementMixin(this);
         this.state = {
             slotOffsets: props.items.map(item => ({
-                inSlotOffsets: item.inItems.map(() => ({ x: 0, y: 0})),
-                outSlotOffsets: item.outItems.map(() => ({ x: 0, y: 0})),
+                inSlotOffsets: item.inItems.map(() => ({x: 0, y: 0})),
+                outSlotOffsets: item.outItems.map(() => ({x: 0, y: 0})),
             })),
             temporaryLink: {
                 show: false,
-                from: { x: 0, y: 0},
-                to: { x: 0, y: 0 },
+                from: {x: 0, y: 0},
+                to: {x: 0, y: 0},
             },
         };
 
@@ -67,7 +67,7 @@ export default class RecipeTree extends Component {
                 outSlotOffsets: outOffsets,
             });
         }
-        this.setState({ slotOffsets });
+        this.setState({slotOffsets});
     }
 
     createLink(link) {
@@ -75,8 +75,8 @@ export default class RecipeTree extends Component {
         const to = getSlotPosition(this.items, this.state.slotOffsets, link.to.item, 'in', link.to.slot);
         return (
             <Link
-                from={{ x: from.x, y: from.y}}
-                to={{ x: to.x, y: to.y }}
+                from={{x: from.x, y: from.y}}
+                to={{x: to.x, y: to.y}}
             />
         );
     }
@@ -105,10 +105,10 @@ export default class RecipeTree extends Component {
     getContainerStyle(scale) {
         return {
             transform: `scale(${scale}, ${scale})`,
-            width: `${100/scale}%`,
-            height: `${ 100/scale}%`,
-            left: `${(100 - 100/scale)/2 }%`,
-            top: `${(100 - 100/scale)/2 }%`,
+            width: `${100 / scale}%`,
+            height: `${100 / scale}%`,
+            left: `${(100 - 100 / scale) / 2}%`,
+            top: `${(100 - 100 / scale) / 2}%`,
         };
     }
 
@@ -127,15 +127,15 @@ export default class RecipeTree extends Component {
                     height: 0,
                 }}
             >
-            <div
-                style={{
-                    position: 'relative',
-                    transform: 'translate(-50%,-50%)',
-                    display: 'inline-flex',
-                }}
-            >
-                {this.createItem(item, i)}
-            </div>
+                <div
+                    style={{
+                        position: 'relative',
+                        transform: 'translate(-50%,-50%)',
+                        display: 'inline-flex',
+                    }}
+                >
+                    {this.createItem(item, i)}
+                </div>
             </div>
         ));
 
@@ -167,15 +167,26 @@ export default class RecipeTree extends Component {
                         {linkComponents}
                         <g ref="temporaryLinkContainer">
                         </g>
+                        <rect width="100%" height="100%" fill="url(#grid)"/>
                     </g>
+                    <defs>
+                        <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5"/>
+                        </pattern>
+                        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                            <rect width="100" height="100" fill="url(#smallGrid)"/>
+                            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth="1"/>
+                        </pattern>
+                    </defs>
+
                 </svg>
                 <div
                     ref="wrapper" className="wrapper" style={{
-                        transform: `translate(${this.offsetX}px,${this.offsetY}px)`,
-                    }}
+                    transform: `translate(${this.offsetX}px,${this.offsetY}px)`,
+                }}
                 >
                     <div className="ItemWrapper">
-                    {itemComponents}
+                        {itemComponents}
                     </div>
                 </div>
             </div>

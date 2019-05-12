@@ -182,8 +182,8 @@ export const showFloatingElement = (e, name) => (dispatch, getState) => {
                 elemY >= graph.top &&
                 elemY <= graph.top + graph.height
             ) {
-                const xGraph = (elemX - graph.left)/graph.scale - graph.offsetX;
-                const yGraph = (elemY - graph.top)/graph.scale - graph.offsetY;
+                const xGraph = (elemX - graph.left) / graph.scale - graph.offsetX * graph.scale;
+                const yGraph = (elemY - graph.top) / graph.scale - graph.offsetY * graph.scale;
 
                 dispatch(showRecipePicker(name, xGraph, yGraph));
             }

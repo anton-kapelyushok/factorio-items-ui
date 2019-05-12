@@ -1,5 +1,4 @@
 import { solveGraphWithFunction } from './common';
-import solveNumeric from './solveNumeric';
 import solveGlpk from './solveGlpk';
 
 const solveProductionGraph = (nodes, links, input, output) => {

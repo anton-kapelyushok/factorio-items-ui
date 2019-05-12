@@ -10,7 +10,7 @@ import {
     glp_get_num_cols,
     glp_get_col_name,
     glp_mip_col_val,
-} from '../../../node_modules/glpk.js/dist/glpk';
+} from 'glpk.js';
 
 import { nulls } from './common';
 
