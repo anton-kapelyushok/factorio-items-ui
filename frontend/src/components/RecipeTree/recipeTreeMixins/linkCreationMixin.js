@@ -68,6 +68,21 @@ export const linkCreationMixin = (self) => {
             );
 
         if (intersectingSlots.out.length) {
+            const inSlot = this.items[itemNumber].inItems[slotNumber];
+            const outSlot = this.items[intersectingSlots.out[0].item].outItems[intersectingSlots.out[0].slot];
+            if  (outSlot.name !== inSlot.name) return;
+
+            if (itemNumber === intersectingSlots.out[0].item) return;
+
+            const linkAlreadyExists = !!this.props.links.find(link =>
+                link.from.item === intersectingSlots.out[0].item
+                && link.from.slot === intersectingSlots.out[0].slot
+                && link.to.item === itemNumber
+                && link.to.slot === slotNumber
+            );
+
+            if (linkAlreadyExists) return;
+
             this.props.onConnectedLinkCreated({
                 from: intersectingSlots.out[0],
                 to: { item: itemNumber, slot: slotNumber },
@@ -92,6 +107,22 @@ export const linkCreationMixin = (self) => {
             );
 
         if (intersectingSlots.in.length) {
+
+            const outSlot = this.items[itemNumber].outItems[slotNumber];
+            const inSlot = this.items[intersectingSlots.in[0].item].inItems[intersectingSlots.in[0].slot];
+            if  (outSlot.name !== inSlot.name) return;
+
+            if (itemNumber === intersectingSlots.in[0].item) return;
+
+            const linkAlreadyExists = !!this.props.links.find(link =>
+                link.to.item === intersectingSlots.in[0].item
+                && link.to.slot === intersectingSlots.in[0].slot
+                && link.from.item === itemNumber
+                && link.from.slot === slotNumber
+            );
+
+            if (linkAlreadyExists) return;
+
             this.props.onConnectedLinkCreated({
                 to: intersectingSlots.in[0],
                 from: { item: itemNumber, slot: slotNumber },

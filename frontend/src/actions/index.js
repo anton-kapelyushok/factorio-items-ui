@@ -1,27 +1,23 @@
 import _ from 'lodash';
 
 import {
-    RECIPE_TREE_ITEM_ADDED,
-    RECIPE_TREE_ITEM_MOVED,
-    RECIPE_TREE_LINK_CREATED,
-    RECIPE_TREE_LAYOUT_CHANGED,
-    RECIPE_TREE_CLIENT_RECT_UPDATED,
-    RECIPE_TREE_COUNTS_UPDATED,
-
     FACTORIO_DATA_FETCH_STARTED,
-    FACTORIO_DATA_LOADED,
     FACTORIO_DATA_FETCHING_FAILED,
-
+    FACTORIO_DATA_LOADED,
+    FLOATING_ELEMENT_HIDE,
+    FLOATING_ELEMENT_MOVE_RELATIVE,
+    FLOATING_ELEMENT_SHOW,
     RECIPE_PICKER_HIDE,
     RECIPE_PICKER_SHOW,
-
-    FLOATING_ELEMENT_SHOW,
-    FLOATING_ELEMENT_MOVE_RELATIVE,
-    FLOATING_ELEMENT_HIDE,
-
+    RECIPE_TREE_CLIENT_RECT_UPDATED,
+    RECIPE_TREE_COUNTS_UPDATED,
+    RECIPE_TREE_ITEM_ADDED,
+    RECIPE_TREE_ITEM_MOVED,
+    RECIPE_TREE_LAYOUT_CHANGED,
+    RECIPE_TREE_LINK_CREATED,
 } from '../constants/actiontypes';
 
-import { LOADING } from '../constants/fetchstatus';
+import {LOADING} from '../constants/fetchstatus';
 
 import parseData from '../dataparser';
 import attachMouseMovementListener from '../events/movementlistener';
@@ -69,14 +65,14 @@ export const calculateGraph = () => (dispatch, getState) => {
         }
     });
     const links = state.graph.links.map((l) => ({
-        from: { node: l.from.item, slot: l.from.slot },
-        to: { node: l.to.item, slot: l.to.slot },
+        from: {node: l.from.item, slot: l.from.slot},
+        to: {node: l.to.item, slot: l.to.slot},
     }));
-    const input = inputIndices.map((i) => ({ index: i, value: 5 }));
-    const output = outputIndices.map((i) => ({ index: i, value: 5 }));
+    const input = inputIndices.map((i) => ({index: i, value: 5}));
+    const output = outputIndices.map((i) => ({index: i, value: 5}));
 
     const solvePromise = solveProductionGraph(nodes, links, input, output);
-    solvePromise.then((counts) =>  dispatch({
+    solvePromise.then((counts) => dispatch({
         type: RECIPE_TREE_COUNTS_UPDATED,
         counts,
     }));
@@ -87,7 +83,7 @@ export const moveItem = (index, x, y) => ({
     index, x, y
 });
 
-export const createLink = ({ from, to }) => ({
+export const createLink = ({from, to}) => ({
     type: RECIPE_TREE_LINK_CREATED,
     from, to
 });
@@ -110,11 +106,12 @@ export const translateCanvas = (dx, dy) => (dispatch, getState) => {
 
 export const updateClientRect = (clientRect) => {
     return {
-    type: RECIPE_TREE_CLIENT_RECT_UPDATED,
-    ...clientRect, };
+        type: RECIPE_TREE_CLIENT_RECT_UPDATED,
+        ...clientRect,
+    };
 };
 
-export const adjustScale = (scale) => (dispatch, getState)  => {
+export const adjustScale = (scale) => (dispatch, getState) => {
     const state = getState();
 
     const offsetX = state.graph.offsetX;
@@ -130,11 +127,11 @@ export const loadData = (fetchData, toHref) => (dispatch, getState) => {
     if (getState().data.status === LOADING) {
         return;
     }
-    dispatch({ type: FACTORIO_DATA_FETCH_STARTED });
+    dispatch({type: FACTORIO_DATA_FETCH_STARTED});
     fetchData()
         .then((data) => parseData(data, toHref))
-        .then((parsedData) => dispatch({ type: FACTORIO_DATA_LOADED, ...parsedData }))
-        .catch((err) => dispatch({ type: FACTORIO_DATA_FETCHING_FAILED, err }));
+        .then((parsedData) => dispatch({type: FACTORIO_DATA_LOADED, ...parsedData}))
+        .catch((err) => dispatch({type: FACTORIO_DATA_FETCHING_FAILED, err}));
 
 };
 
@@ -173,7 +170,7 @@ export const showFloatingElement = (e, name) => (dispatch, getState) => {
             const state = getState();
             const elemX = state.floatingElement.x;
             const elemY = state.floatingElement.y;
-            dispatch({ type: FLOATING_ELEMENT_HIDE });
+            dispatch({type: FLOATING_ELEMENT_HIDE});
 
             const graph = state.graph;
 

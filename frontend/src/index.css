@@ -19,6 +19,18 @@ body {
     display: flex;
     height: 100%;
     width: 100%;
+    flex-direction: column;
+}
+
+.App-header {
+    position: relative;
+    height: 40px;
+    background: aliceblue;
+}
+
+.App-content {
+    display: flex;
+    flex: 1;
 }
 
 .Editor {
@@ -30,7 +42,6 @@ body {
     position: relative;
     /*border: 1px solid;*/
     background: pink;
-    cursor: arrow;
     overflow: hidden;
     box-sizing: border-box;
     width: 100%;
