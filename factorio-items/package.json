@@ -1,0 +1,16 @@
+{
+  "name": "factorio-items",
+  "version": "0.0.1",
+  "description": "Display factorio item tree",
+  "main": "src/js/index.js",
+  "scripts": {
+    "start": "node src/js/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anton Kapelyushok",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "lua.vm.js": "0.0.1"
+  }
+}
